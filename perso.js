@@ -1,25 +1,31 @@
 
 const query = require('./query.js');
+const index = require('./index.js');
 
-module.exports =class SPARQLQueryDispatcher {
-	constructor(ID) {
+module.exports = class Perso {
+	constructor(ID, index) {
+		this.index = index;
 		this.ID = ID;
 		this.name;
 		this.child
+		console.log(this.ID)
 	}
 
 	Child() {
-		this.child = query.getChild(this.ID).then( (data) => {
-			//console.log(data.results.bindings)
-			var array = data.results.bindings
-			var ID = [];
-			array.forEach(function(item){
-				ID.push(item.child.value.split('entity/')[1]);
+		return new Promise((resolve, reject) => {
+			query.getChild(this.ID).then( (data) => {
+				//console.log(data.results.bindings)
+				var array = data.results.bindings
+				var ID = [];
+				array.forEach(function(item){
+					ID.push(item.child.value.split('entity/')[1]);
+				});
+				//console.log(ID)
+				resolve (ID);
+				this.index.Push(ID)
+				this.child = ID
 			});
-			//console.log(ID)
-			return (ID);
-		})
-		return (this.child);
+		});
 	}
 
 	Name() {
@@ -34,6 +40,7 @@ module.exports =class SPARQLQueryDispatcher {
 			});
 		}
 		else {
+			console.log('OK')
 			return(this.name)
 		}
 	}

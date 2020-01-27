@@ -1,9 +1,30 @@
 const perso = require ('./perso.js');
+const Index = require('./index.js');
 
-var index = [];
-index.push(new perso('Q7742'));
+var index = new Index();
 
-index.forEach(function(id){
+var louis_14 = new perso('Q7742', index)
+louis_14.Child()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*index.forEach(function(id){
 	id.Name().then(console.log)
 })
 
@@ -15,7 +36,7 @@ index.forEach(function(id){
 		})
 	});
 })
-
+*/
 /*louis_14.Child().then((children) => {children.forEach(function(child){
 	index.push(new perso(child));
 	console.log(child)
