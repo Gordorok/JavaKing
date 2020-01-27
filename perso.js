@@ -1,20 +1,40 @@
-const fetch = require("node-fetch");
+
+const query = require('./query.js');
 
 module.exports =class SPARQLQueryDispatcher {
-	constructor() {
-		const endpoint = 'https://query.wikidata.org/sparql';
-		this.endpoint = endpoint;
+	constructor(ID) {
+		this.ID = ID;
+		this.name;
+		this.child
 	}
 
-	getChild() {
-		const sparqlQuery = `SELECT ?child ?childLabel
-		{
-			wd:Q7742 wdt:P40 ?child
-			SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],fr,en". }
-		}`;
-		const fullUrl = this.endpoint + '?query=' + encodeURIComponent( sparqlQuery );
-		const headers = { 'Accept': 'application/sparql-results+json' };
+	Child() {
+		this.child = query.getChild(this.ID).then( (data) => {
+			//console.log(data.results.bindings)
+			var array = data.results.bindings
+			var ID = [];
+			array.forEach(function(item){
+				ID.push(item.child.value.split('entity/')[1]);
+			});
+			//console.log(ID)
+			return (ID);
+		})
+		return (this.child);
+	}
 
-		return fetch( fullUrl, { headers } ).then( body => body.json());
+	Name() {
+		if(typeof this.name === 'undefined') {
+			return new Promise((resolve, reject) => {
+				query.getName(this.ID).then((data) => {
+					//console.log(data)
+					this.name = data.results.bindings[0].label.value
+					//console.log(this.name)
+					resolve (this.name)
+				});
+			});
+		}
+		else {
+			return(this.name)
+		}
 	}
 }
