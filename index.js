@@ -13,7 +13,7 @@ module.exports = class Index {
 			index.push(id);
 		});
 		this.index = index
-		console.log(this.index)
+		//console.log(this.index)
 	}
 
 }

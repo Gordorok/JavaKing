@@ -8,6 +8,8 @@ module.exports = class Perso {
 		this.ID = ID;
 		this.name;
 		this.child
+		this.father
+		this.mother
 		console.log(this.ID)
 	}
 
@@ -43,5 +45,51 @@ module.exports = class Perso {
 			console.log('OK')
 			return(this.name)
 		}
+	}
+
+	Father() {
+		if(typeof this.name === 'undefined') {
+			return new Promise((resolve, reject) => {
+				query.getFather(this.ID).then( (data) => {
+					//console.log(data)
+					var array = data.results.bindings
+					var ID = [];
+					ID.push(data.results.bindings[0].father.value.split('entity/')[1]);
+					//console.log(ID)
+					resolve (ID);
+					this.index.Push(ID)
+					this.father = ID
+				});
+			});
+
+		}
+		else {
+			console.log('OK')
+			return(this.father)
+		}
+
+	}
+
+	Mother() {
+		if(typeof this.name === 'undefined') {
+			return new Promise((resolve, reject) => {
+				query.getMother(this.ID).then( (data) => {
+					//console.log(data)
+					var array = data.results.bindings
+					var ID = [];
+					ID.push(data.results.bindings[0].mother.value.split('entity/')[1]);
+					//console.log(ID)
+					resolve (ID);
+					this.index.Push(ID)
+					this.mother = ID
+				});
+			});
+
+		}
+		else {
+			console.log('OK')
+			return(this.mother)
+		}
+
 	}
 }

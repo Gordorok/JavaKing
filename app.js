@@ -4,7 +4,9 @@ const Index = require('./index.js');
 var index = new Index();
 
 var louis_14 = new perso('Q7742', index)
-louis_14.Child()
+louis_14.Child().then(console.log)
+louis_14.Father().then(console.log)
+louis_14.Mother().then(console.log)
 
 
 

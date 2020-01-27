@@ -24,3 +24,27 @@ const getName = (ID) => {
 	return fetch( fullUrl, { headers } ).then( body => body.json());
 }
 exports.getName = getName;
+
+const getFather = (ID) => {
+	const sparqlQuery = `SELECT ?father
+	{
+		wd:`+ ID +` wdt:P22 ?father
+	}`;
+	const fullUrl = endpoint + '?query=' + encodeURIComponent( sparqlQuery );
+	const headers = { 'Accept': 'application/sparql-results+json' };
+
+	return fetch( fullUrl, { headers } ).then( body => body.json());
+}
+exports.getFather = getFather;
+
+const getMother = (ID) => {
+	const sparqlQuery = `SELECT ?mother
+	{
+		wd:`+ ID +` wdt:P25 ?mother
+	}`;
+	const fullUrl = endpoint + '?query=' + encodeURIComponent( sparqlQuery );
+	const headers = { 'Accept': 'application/sparql-results+json' };
+
+	return fetch( fullUrl, { headers } ).then( body => body.json());
+}
+exports.getMother = getMother;
