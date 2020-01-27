@@ -2,10 +2,10 @@
   "name": "javaking",
   "version": "1.0.0",
   "description": "Explore les rois",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon --ignore  sessions/ server.js"
+    "start": "nodemon app.js"
   },
   "repository": {
     "type": "git",
