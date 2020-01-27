@@ -1,4 +1,4 @@
-const SPARQLQueryDispatcher = require ('./query.js');
+const perso = require ('./perso.js');
 
 const endpointUrl = 'https://query.wikidata.org/sparql';
 const sparqlQuery = `SELECT ?child1 ?child1Label
@@ -14,5 +14,5 @@ const transf = function (data) {
 	result1 = obj.results.bindings
 	console.log(result1)
 }
-const queryDispatcher = new SPARQLQueryDispatcher( endpointUrl );
-queryDispatcher.query( sparqlQuery ).then( transf ) ;
+const louis_14 = new perso();
+louis_14.getChild().then( transf );
