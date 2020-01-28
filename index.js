@@ -1,14 +1,13 @@
-//const perso = require ('./perso.js');
+const perso = require ('./perso.js');
 
 module.exports = class Index {
 
 	constructor() {
-		this.index = []; // détient la liste des obj perso existant
-		//this.index.push([Array(1),Array(1)])
+		this.list = [] 
+		console.log(this)// détient la liste des obj perso existant
 	}
 
 	PushArray (array) {
-		const perso = require ('./perso.js');
 		var pushed = []
 		
 		var obj;
@@ -21,41 +20,42 @@ module.exports = class Index {
 	}
 
 	PushId (id) {
-
+return new Promise((resolve,reject) =>{
 		const perso = require ('./perso.js');
-		var obj;
+		this.obj;
 		var exist = -1;
 
-		for (var i=0 ; i<this.index.length; i++){
-			if(this.index[i].ID == id){
+		for (var i=0 ; i<this.list.length; i++){
+			if(this.list[i].ID == id){
 				exist = i;
 			}
 		}
 
 		if ( exist == -1)	{	
-			obj = new perso(id, this)
-			this.index.push(obj);
-			console.log(this.index)
-			console.log('END')
-			return obj
+			this.obj = new perso(id, this)
+			this.list.push(this.obj);
+			//console.log(obj)
+			//console.log('END')
+			resolve (this.obj)
 		}
 		else {
 			//console.log(this.index)
 			//console.log('END')
-			return (this.index[i])
+			resolve (this.list[i])
 		}
+	});
 
 	}
 
 	GetObj (ID) {
 		return new Promise((resolve, reject) =>{
 			var find = 0
-			for (var i=0, L=this.index[0].length; i>L; i++){
-				console.log(this.index[i].ID)
-				if(this.index[i].ID === ID){
+			for (var i=0, L=this.list.length; i>L; i++){
+				console.log(this.list[i].ID)
+				if(this.list[i].ID === ID){
 					find=1
 					//console.log(this.index[i])
-					resolve (this.index[i])
+					resolve (this.list[i])
 				}
 			}
 			if(find === 0){

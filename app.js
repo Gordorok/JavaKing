@@ -1,12 +1,13 @@
 const perso = require ('./perso.js');
 const Index = require('./index.js');
 
-var index = new Index();
+var index = new Index([]);
+//var initPerso = new perso(0,index)
 
+//louis_14 = index.GetObj('Q7742')//.then(console.log)
+index.PushId('Q7742').Mother().then((obj) => obj.Name())
+//index.PushId('Q237666')
 
-//index.PushId('Q7742').Mother().then(console.log)
-index.PushId('Q237666')
-//louis_14 = index.GetObj('Q7742').then(console.log)
 
 
 

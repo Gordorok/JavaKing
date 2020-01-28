@@ -72,15 +72,15 @@ module.exports = class Perso {
 
 	Mother() {
 		return new Promise((resolve, reject) => {
-			if(typeof this.name === 'undefined') {
+			if(typeof this.mother === 'undefined') {
 				query.getMother(this.ID).then( (data) => {
 					//console.log(data)
 					var array = data.results.bindings
-					var ID = [];
-					ID.push(data.results.bindings[0].mother.value.split('entity/')[1]);
+					var ID = data.results.bindings[0].mother.value.split('entity/')[1];
 					//console.log(ID)
-					var obj = this.index.PushArray(ID)
+					var obj = this.index.PushId(ID).then(resolve)
 					this.mother = obj
+					//console.log(obj)
 					resolve (obj);
 				});
 
