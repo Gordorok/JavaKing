@@ -2,9 +2,9 @@ const perso = require ('./perso.js');
 const Index = require('./index.js');
 
 var index = new Index();
-var louis_14 = 'NANA'
 
-index.PushId('Q7742').Mother().then(console.log).then(console.log)
+
+//index.PushId('Q7742').Mother().then(console.log)
 index.PushId('Q237666')
 //louis_14 = index.GetObj('Q7742').then(console.log)
 

@@ -79,11 +79,11 @@ module.exports = class Perso {
 					var ID = [];
 					ID.push(data.results.bindings[0].mother.value.split('entity/')[1]);
 					//console.log(ID)
-					resolve (ID);
-					this.index.PushArray(ID)
-					this.mother = ID
+					var obj = this.index.PushArray(ID)
+					this.mother = obj
+					resolve (obj);
 				});
-				
+
 
 			}
 			else {
