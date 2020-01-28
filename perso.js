@@ -10,7 +10,7 @@ module.exports = class Perso {
 		this.child
 		this.father
 		this.mother
-		console.log(this.ID)
+		//console.log(this.ID)
 	}
 
 	Child() {
@@ -23,9 +23,9 @@ module.exports = class Perso {
 					ID.push(item.child.value.split('entity/')[1]);
 				});
 				//console.log(ID)
-				resolve (ID);
-				this.index.Push(ID)
+				this.index.PushArray(ID)
 				this.child = ID
+				resolve (ID);
 			});
 		});
 	}
@@ -57,7 +57,7 @@ module.exports = class Perso {
 					ID.push(data.results.bindings[0].father.value.split('entity/')[1]);
 					//console.log(ID)
 					resolve (ID);
-					this.index.Push(ID)
+					this.index.PushArray(ID)
 					this.father = ID
 				});
 			});
@@ -80,7 +80,7 @@ module.exports = class Perso {
 					ID.push(data.results.bindings[0].mother.value.split('entity/')[1]);
 					//console.log(ID)
 					resolve (ID);
-					this.index.Push(ID)
+					this.index.PushArray(ID)
 					this.mother = ID
 				});
 			});
