@@ -9,26 +9,25 @@ module.exports = class Index {
 
 	PushArray (array) {
 		const perso = require ('./perso.js');
-		//console.log(array)
+		var pushed = []
+		
 		var obj;
 		array.forEach((id) => {
-			//obj = new perso(id, this)
-			//this.index.push([id, obj]);
-			this.PushId(id)
+			console.log(id)
+			pushed.push(this.PushId(id));
 		});
-		//console.log(this.index)
-		//console.log('END')
+		return (pushed)
+
 	}
 
 	PushId (id) {
+
 		const perso = require ('./perso.js');
-		//console.log(array)
 		var obj;
 		var exist = -1;
 
 		for (var i=0 ; i<this.index.length; i++){
 			if(this.index[i][0] === id){
-				console.log('DOUBLON')
 				exist = i;
 			}
 		}
@@ -36,14 +35,13 @@ module.exports = class Index {
 		if ( exist == -1)	{	
 			obj = new perso(id, this)
 			this.index.push([id, obj]);
-			console.log(this.index)
-			console.log('END')
+			//console.log(this.index)
+			//console.log('END')
 			return obj
 		}
 		else {
-			console.log('Exist')
-			console.log(this.index)
-			console.log('END')
+			//console.log(this.index)
+			//console.log('END')
 			return (this.index[1][i])
 		}
 

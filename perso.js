@@ -71,8 +71,8 @@ module.exports = class Perso {
 	}
 
 	Mother() {
-		if(typeof this.name === 'undefined') {
-			return new Promise((resolve, reject) => {
+		return new Promise((resolve, reject) => {
+			if(typeof this.name === 'undefined') {
 				query.getMother(this.ID).then( (data) => {
 					//console.log(data)
 					var array = data.results.bindings
@@ -83,13 +83,13 @@ module.exports = class Perso {
 					this.index.PushArray(ID)
 					this.mother = ID
 				});
-			});
+				
 
-		}
-		else {
-			console.log('OK')
-			return(this.mother)
-		}
-
+			}
+			else {
+				console.log('OK')
+				return(this.mother)
+			}
+		});
 	}
 }
