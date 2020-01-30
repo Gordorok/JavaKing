@@ -8,6 +8,9 @@ module.exports = class Perso {
 		this.child
 		this.father
 		this.mother
+		this.birth
+		this.death
+		this.age
 	}
 
 	Child() {
@@ -87,4 +90,81 @@ module.exports = class Perso {
 			}
 		});
 	}
+
+	Birth(){
+		return new Promise((resolve, reject) =>{
+			if(typeof this.birth === 'undefined') {
+				query.getBirth(this.ID).then( (data) => {
+					this.birth=data.results.bindings[0].birth.value
+					console.log(this.birth)
+					resolve(this.Convert_DateTime(this.birth))
+				});
+			}
+			else {
+				console.log(this.birth.match(/([^T]+)/)[0].split("-").reverse().join("/"))
+				resolve(this.Convert_DateTime(this.birth))
+			}
+		});
+	}
+
+	Death(){
+		return new Promise((resolve, reject) =>{
+			if(typeof this.death === 'undefined') {
+				query.getDeath(this.ID).then( (data) => {
+					this.death=data.results.bindings[0].death.value
+					console.log(this.death)
+					resolve(this.Convert_DateTime(this.death))
+				});
+			}
+			else {
+				console.log(this.death)
+				resolve(this.Convert_DateTime(this.death))
+			}
+		});
+	}
+
+	Age(){
+		return new Promise((resolve, reject) => {
+			
+			var birth = new Promise((resolve, reject) =>{
+				if(typeof this.birth === 'undefined') {
+					query.getBirth(this.ID).then( (data) => {
+						this.birth=data.results.bindings[0].birth.value
+						resolve(this.birth)
+					});
+				}
+				else {
+					resolve(this.birth)
+				}
+			});
+
+			var death = new Promise((resolve, reject) =>{
+				if(typeof this.death === 'undefined') {
+					query.getDeath(this.ID).then( (data) => {
+						this.death=data.results.bindings[0].death.value
+						resolve(this.death)
+					});
+				}
+				else {
+					resolve(this.death)
+				}
+			});
+
+			var one_day = 1000 * 60 * 60 * 24;
+			Promise.all([birth, death]).then(data =>{
+				var birth= Date.parse(data[0])
+				var death= Date.parse(data[1])
+				var diff = ((death-birth)/(3600*24*365.25*1000))
+				diff = diff - diff%1
+				console.log(diff)
+				resolve(diff)
+			})
+
+		});
+	}
+
+	Convert_DateTime(text) {
+		return (text.match(/([^T]+)/)[0].split("-").reverse().join("/"));
+	}
+
 }

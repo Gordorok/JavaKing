@@ -48,3 +48,31 @@ const getMother = (ID) => {
 	return fetch( fullUrl, { headers } ).then( body => body.json());
 }
 exports.getMother = getMother;
+
+const getBirth = (ID) => {
+	const sparqlQuery = `SELECT ?birth ?birthLabel
+WHERE
+	{
+		 wd:`+ ID +` wdt:P569 ?birth.
+         SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],fr,en". }
+	}`;
+	const fullUrl = endpoint + '?query=' + encodeURIComponent( sparqlQuery );
+	const headers = { 'Accept': 'application/sparql-results+json' };
+
+	return fetch( fullUrl, { headers } ).then( body => body.json());
+}
+exports.getBirth = getBirth;
+
+const getDeath = (ID) => {
+	const sparqlQuery = `SELECT ?death ?deathLabel
+WHERE
+	{
+		 wd:`+ ID +` wdt:P570 ?death.
+         SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],fr,en". }
+	}`;
+	const fullUrl = endpoint + '?query=' + encodeURIComponent( sparqlQuery );
+	const headers = { 'Accept': 'application/sparql-results+json' };
+
+	return fetch( fullUrl, { headers } ).then( body => body.json());
+}
+exports.getDeath = getDeath;
