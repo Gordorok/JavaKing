@@ -11,7 +11,6 @@ module.exports = class Index {
 		
 		var obj;
 		array.forEach((id) => {
-			console.log(id)
 			pushed.push(this.PushId(id));
 		});
 		return (pushed)
@@ -32,15 +31,10 @@ module.exports = class Index {
 		if ( exist == -1)	{	
 			this.obj = new perso(id)
 			this.list.push(this.obj);
-			console.log(this.obj)
-			//console.log(this.list)
-			//console.log('END')
 			return(this.obj)
 		}
 		else {
-			//console.log(this.index)
-			//console.log('END')
-			return (this.list[i])
+			return (this.list[exist])
 		}
 
 	}
@@ -52,7 +46,6 @@ module.exports = class Index {
 				console.log(this.list[i].ID)
 				if(this.list[i].ID === ID){
 					find=1
-					//console.log(this.index[i])
 					resolve (this.list[i])
 				}
 			}
