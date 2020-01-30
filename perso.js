@@ -1,10 +1,8 @@
-
 const query = require('./query.js');
 const index = require('./index.js');
 
 module.exports = class Perso {
-	constructor(ID, index) {
-		this.index = index;
+	constructor(ID) {
 		this.ID = ID;
 		this.name;
 		this.child
@@ -23,7 +21,7 @@ module.exports = class Perso {
 					ID.push(item.child.value.split('entity/')[1]);
 				});
 				//console.log(ID)
-				this.index.PushArray(ID)
+				globIndex.PushArray(ID)
 				this.child = ID
 				resolve (ID);
 			});
@@ -57,7 +55,7 @@ module.exports = class Perso {
 					ID.push(data.results.bindings[0].father.value.split('entity/')[1]);
 					//console.log(ID)
 					resolve (ID);
-					this.index.PushArray(ID)
+					globIndex.PushArray(ID)
 					this.father = ID
 				});
 			});
@@ -75,20 +73,18 @@ module.exports = class Perso {
 			if(typeof this.mother === 'undefined') {
 				query.getMother(this.ID).then( (data) => {
 					//console.log(data)
-					var array = data.results.bindings
 					var ID = data.results.bindings[0].mother.value.split('entity/')[1];
-					//console.log(ID)
-					var obj = this.index.PushId(ID).then(resolve)
-					this.mother = obj
-					//console.log(obj)
-					resolve (obj);
+					//console.log(globIndex)
+					this.mother = globIndex.PushId(ID)
+					console.log(this.mother)
+					resolve(this.mother);
 				});
 
 
 			}
 			else {
 				console.log('OK')
-				return(this.mother)
+				resolve(this.mother)
 			}
 		});
 	}

@@ -3,8 +3,7 @@ const perso = require ('./perso.js');
 module.exports = class Index {
 
 	constructor() {
-		this.list = [] 
-		console.log(this)// détient la liste des obj perso existant
+		this.list = [] // détient la liste des obj perso existant
 	}
 
 	PushArray (array) {
@@ -20,7 +19,6 @@ module.exports = class Index {
 	}
 
 	PushId (id) {
-return new Promise((resolve,reject) =>{
 		const perso = require ('./perso.js');
 		this.obj;
 		var exist = -1;
@@ -32,18 +30,18 @@ return new Promise((resolve,reject) =>{
 		}
 
 		if ( exist == -1)	{	
-			this.obj = new perso(id, this)
+			this.obj = new perso(id)
 			this.list.push(this.obj);
-			//console.log(obj)
+			console.log(this.obj)
+			//console.log(this.list)
 			//console.log('END')
-			resolve (this.obj)
+			return(this.obj)
 		}
 		else {
 			//console.log(this.index)
 			//console.log('END')
-			resolve (this.list[i])
+			return (this.list[i])
 		}
-	});
 
 	}
 
