@@ -54,6 +54,7 @@ module.exports = class Perso {
 					query.getFather(this.ID).then( (data) => {
 						var ID = data.results.bindings[0].father.value.split('entity/')[1];
 						this.father=globIndex.PushId(ID)
+						this.father.child=this
 						console.log(this.father)
 						resolve (this.father);
 					});
@@ -73,6 +74,7 @@ module.exports = class Perso {
 				query.getMother(this.ID).then( (data) => {
 					var ID = data.results.bindings[0].mother.value.split('entity/')[1];
 					this.mother = globIndex.PushId(ID)
+					this.mother.child=this
 					console.log(this.mother)
 					resolve(this.mother);
 				});

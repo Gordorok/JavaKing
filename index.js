@@ -1,4 +1,3 @@
-const perso = require ('./perso.js');
 
 module.exports = class Index {
 
