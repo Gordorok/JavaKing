@@ -76,3 +76,16 @@ WHERE
 	return fetch( fullUrl, { headers } ).then( body => body.json());
 }
 exports.getDeath = getDeath;
+
+const getSpouse = (ID) => {
+	const sparqlQuery = `SELECT ?spouse
+WHERE
+	{
+		 wd:Q7742 wdt:P26 ?spouse
+	}`;
+	const fullUrl = endpoint + '?query=' + encodeURIComponent( sparqlQuery );
+	const headers = { 'Accept': 'application/sparql-results+json' };
+
+	return fetch( fullUrl, { headers } ).then( body => body.json());
+}
+exports.getSpouse = getSpouse;

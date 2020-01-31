@@ -11,11 +11,12 @@ module.exports = class Perso {
 		this.birth
 		this.death
 		this.age
+		this.spouse
 	}
 
 	Child() {
 		return new Promise((resolve, reject) => {
-			if(typeof this.name === 'undefined') {
+			if(typeof this.child === 'undefined') {
 				query.getChild(this.ID).then( (data) => {
 					var array = data.results.bindings
 					var ID = [];
@@ -30,6 +31,27 @@ module.exports = class Perso {
 			else {
 				console.log(this.child)
 				resolve (this.child);
+			}
+		});
+	}
+
+	Spouse() {
+		return new Promise((resolve, reject) =>{
+			if(typeof this.spouse === 'undefined') {
+				query.getSpouse(this.ID).then( (data) => {
+					var array = data.results.bindings
+					var ID =[]
+					array.forEach(function(item){
+						ID.push(item.spouse.value.split('entity/')[1]);
+					});
+					this.spouse=globIndex.PushArray(ID)
+					console.log(this.spouse)
+					resolve(this.spouse)
+				});
+			}
+			else {
+				console.log(this.spouse)
+				resolve(this.spouse)
 			}
 		});
 	}
@@ -52,12 +74,11 @@ module.exports = class Perso {
 
 	Father() {
 		return new Promise((resolve, reject) => {
-			if(typeof this.name === 'undefined') {
+			if(typeof this.father === 'undefined') {
 				return new Promise((resolve, reject) => {
 					query.getFather(this.ID).then( (data) => {
 						var ID = data.results.bindings[0].father.value.split('entity/')[1];
 						this.father=globIndex.PushId(ID)
-						this.father.child=this
 						console.log(this.father)
 						resolve (this.father);
 					});
@@ -77,7 +98,6 @@ module.exports = class Perso {
 				query.getMother(this.ID).then( (data) => {
 					var ID = data.results.bindings[0].mother.value.split('entity/')[1];
 					this.mother = globIndex.PushId(ID)
-					this.mother.child=this
 					console.log(this.mother)
 					resolve(this.mother);
 				});
@@ -127,7 +147,7 @@ module.exports = class Perso {
 		return new Promise((resolve, reject) => {
 			
 			var birth = new Promise((resolve, reject) =>{
-				if(typeof this.birth === 'undefined') {
+				if(typeof this.age === 'undefined') {
 					query.getBirth(this.ID).then( (data) => {
 						this.birth=data.results.bindings[0].birth.value
 						resolve(this.birth)
