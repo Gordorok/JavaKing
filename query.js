@@ -89,3 +89,17 @@ WHERE
 	return fetch( fullUrl, { headers } ).then( body => body.json());
 }
 exports.getSpouse = getSpouse;
+
+const getImage = (ID) => {
+	const sparqlQuery = `SELECT ?image ?imageLabel 
+WHERE
+	{
+		 wd:Q7742 wdt:P18 ?image.
+         SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],fr,en". }
+	}`;
+	const fullUrl = endpoint + '?query=' + encodeURIComponent( sparqlQuery );
+	const headers = { 'Accept': 'application/sparql-results+json' };
+
+	return fetch( fullUrl, { headers } ).then( body => body.json());
+}
+exports.getImage = getImage;

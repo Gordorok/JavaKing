@@ -1,5 +1,6 @@
 const query = require('./query.js');
 const index = require('./index.js');
+const download = require('image-downloader')
 
 module.exports = class Perso {
 	constructor(ID) {
@@ -12,6 +13,7 @@ module.exports = class Perso {
 		this.death
 		this.age
 		this.spouse
+		this.image
 	}
 
 	Child() {
@@ -180,6 +182,30 @@ module.exports = class Perso {
 				resolve(diff)
 			})
 
+		});
+	}
+
+	Image() {
+		return new Promise ((resolve, reject) => {
+			if(typeof this.image === 'undefined') {
+				query.getImage(this.ID).then((data) => {
+					const URL = data.results.bindings[0].image.value
+					const options = {
+						url: URL,
+						dest: './images/'+this.ID+'.jpg'       
+					}
+					download.image(options)
+					.then(({ filename, image }) => {
+						console.log('Saved to', filename)
+						this.image= this.ID;
+						resolve(this.image)
+					})
+					.catch((err) => console.error(err))
+				});
+			}
+			else {
+				resolve (this.image)
+			}
 		});
 	}
 
