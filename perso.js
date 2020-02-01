@@ -77,14 +77,13 @@ module.exports = class Perso {
 	Father() {
 		return new Promise((resolve, reject) => {
 			if(typeof this.father === 'undefined') {
-				return new Promise((resolve, reject) => {
-					query.getFather(this.ID).then( (data) => {
-						var ID = data.results.bindings[0].father.value.split('entity/')[1];
-						this.father=globIndex.PushId(ID)
-						console.log(this.father)
-						resolve (this.father);
-					});
+				query.getFather(this.ID).then( (data) => {
+					var ID = data.results.bindings[0].father.value.split('entity/')[1];
+					this.father = globIndex.PushId(ID)
+					console.log(this.father)
+					resolve(this.father);
 				});
+
 
 			}
 			else {

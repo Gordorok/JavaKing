@@ -81,7 +81,7 @@ const getSpouse = (ID) => {
 	const sparqlQuery = `SELECT ?spouse
 WHERE
 	{
-		 wd:Q7742 wdt:P26 ?spouse
+		 wd:`+ ID +` wdt:P26 ?spouse
 	}`;
 	const fullUrl = endpoint + '?query=' + encodeURIComponent( sparqlQuery );
 	const headers = { 'Accept': 'application/sparql-results+json' };
@@ -94,7 +94,7 @@ const getImage = (ID) => {
 	const sparqlQuery = `SELECT ?image ?imageLabel 
 WHERE
 	{
-		 wd:Q7742 wdt:P18 ?image.
+		 wd:`+ ID +` wdt:P18 ?image.
          SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],fr,en". }
 	}`;
 	const fullUrl = endpoint + '?query=' + encodeURIComponent( sparqlQuery );
