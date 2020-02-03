@@ -1,15 +1,29 @@
-const fetch = require("node-fetch");
 const endpoint = 'https://query.wikidata.org/sparql';
+const axios = require('axios').default;
+const Queue = require('smart-request-balancer');
+
+const queue = new Queue({
+  rules: {                     // Describing our rules by rule name
+    common: {                  // Common rule. Will be used if you won't provide rule argument
+      rate: 30,                // Allow to send 30 messages
+      limit: 1,                // per 1 second
+      priority: 1,             // Rule priority. The lower priority is, the higher chance that
+                               // this rule will execute faster 
+                           }
+                       },
+  retryTime: 1,              // Default retry time. Can be configured in retry fn
+  ignoreOverallOverheat: true  // Should we ignore overheat of queue itself
+})
 
 const getChild = (ID) => {
-	const sparqlQuery = `SELECT ?child
-	{
-		wd:`+ ID +` wdt:P40 ?child
-	}`;
-	const fullUrl = endpoint + '?query=' + encodeURIComponent( sparqlQuery );
-	const headers = { 'Accept': 'application/sparql-results+json' };
+		const sparqlQuery = `SELECT ?child
+		{
+			wd:`+ ID +` wdt:P40 ?child
+		}`;
+		const fullUrl = endpoint + '?query=' + encodeURIComponent( sparqlQuery );
+		const headers = { 'Accept': 'application/sparql-results+json' };
 
-	return fetch( fullUrl, { headers } ).then( body => body.json());
+		return Axios(fullUrl, headers, ID)
 }
 exports.getChild = getChild;
 
@@ -25,85 +39,103 @@ const getName = (ID) => {
 		const fullUrl = endpoint + '?query=' + encodeURIComponent( sparqlQuery );
 		const headers = { 'Accept': 'application/sparql-results+json' };
 
-		return fetch( fullUrl, { headers } ).then( body => body.json());
+		return Axios(fullUrl, headers, ID)
 	}
-	exports.getName = getName;
 
-	const getFather = (ID) => {
-		const sparqlQuery = `SELECT ?father
-		{
-			wd:`+ ID +` wdt:P22 ?father
-		}`;
-		const fullUrl = endpoint + '?query=' + encodeURIComponent( sparqlQuery );
-		const headers = { 'Accept': 'application/sparql-results+json' };
+exports.getName = getName;
 
-		return fetch( fullUrl, { headers } ).then( body => body.json());
-	}
-	exports.getFather = getFather;
+const getFather = (ID) => {
+	const sparqlQuery = `SELECT ?father
+	{
+		wd:`+ ID +` wdt:P22 ?father
+	}`;
+	const fullUrl = endpoint + '?query=' + encodeURIComponent( sparqlQuery );
+	const headers = { 'Accept': 'application/sparql-results+json' };
 
-	const getMother = (ID) => {
-		const sparqlQuery = `SELECT ?mother
-		{
-			wd:`+ ID +` wdt:P25 ?mother
-		}`;
-		const fullUrl = endpoint + '?query=' + encodeURIComponent( sparqlQuery );
-		const headers = { 'Accept': 'application/sparql-results+json' };
+	return Axios(fullUrl, headers, ID)
+}
+exports.getFather = getFather;
 
-		return fetch( fullUrl, { headers } ).then( body => body.json());
-	}
-	exports.getMother = getMother;
+const getMother = (ID) => {
+	const sparqlQuery = `SELECT ?mother
+	{
+		wd:`+ ID +` wdt:P25 ?mother
+	}`;
+	const fullUrl = endpoint + '?query=' + encodeURIComponent( sparqlQuery );
+	const headers = { 'Accept': 'application/sparql-results+json' };
 
-	const getBirth = (ID) => {
-		const sparqlQuery = `SELECT ?birth ?birthLabel
-		WHERE
-		{
-			wd:`+ ID +` wdt:P569 ?birth.
-			SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],fr,en". }
-		}`;
-		const fullUrl = endpoint + '?query=' + encodeURIComponent( sparqlQuery );
-		const headers = { 'Accept': 'application/sparql-results+json' };
+	return Axios(fullUrl, headers, ID)
+}
+exports.getMother = getMother;
 
-		return fetch( fullUrl, { headers } ).then( body => body.json());
-	}
-	exports.getBirth = getBirth;
+const getBirth = (ID) => {
+	const sparqlQuery = `SELECT ?birth ?birthLabel
+	WHERE
+	{
+		wd:`+ ID +` wdt:P569 ?birth.
+		SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],fr,en". }
+	}`;
+	const fullUrl = endpoint + '?query=' + encodeURIComponent( sparqlQuery );
+	const headers = { 'Accept': 'application/sparql-results+json' };
 
-	const getDeath = (ID) => {
-		const sparqlQuery = `SELECT ?death ?deathLabel
-		WHERE
-		{
-			wd:`+ ID +` wdt:P570 ?death.
-			SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],fr,en". }
-		}`;
-		const fullUrl = endpoint + '?query=' + encodeURIComponent( sparqlQuery );
-		const headers = { 'Accept': 'application/sparql-results+json' };
+	return Axios(fullUrl, headers, ID)
+}
+exports.getBirth = getBirth;
 
-		return fetch( fullUrl, { headers } ).then( body => body.json());
-	}
-	exports.getDeath = getDeath;
+const getDeath = (ID) => {
+	const sparqlQuery = `SELECT ?death ?deathLabel
+	WHERE
+	{
+		wd:`+ ID +` wdt:P570 ?death.
+		SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],fr,en". }
+	}`;
+	const fullUrl = endpoint + '?query=' + encodeURIComponent( sparqlQuery );
+	const headers = { 'Accept': 'application/sparql-results+json' };
 
-	const getSpouse = (ID) => {
-		const sparqlQuery = `SELECT ?spouse
-		WHERE
-		{
-			wd:`+ ID +` wdt:P26 ?spouse
-		}`;
-		const fullUrl = endpoint + '?query=' + encodeURIComponent( sparqlQuery );
-		const headers = { 'Accept': 'application/sparql-results+json' };
+	return Axios(fullUrl, headers, ID)
+}
+exports.getDeath = getDeath;
 
-		return fetch( fullUrl, { headers } ).then( body => body.json());
-	}
-	exports.getSpouse = getSpouse;
+const getSpouse = (ID) => {
+	const sparqlQuery = `SELECT ?spouse
+	WHERE
+	{
+		wd:`+ ID +` wdt:P26 ?spouse
+	}`;
+	const fullUrl = endpoint + '?query=' + encodeURIComponent( sparqlQuery );
+	const headers = { 'Accept': 'application/sparql-results+json' };
 
-	const getImage = (ID) => {
-		const sparqlQuery = `SELECT ?image ?imageLabel 
-		WHERE
-		{
-			wd:`+ ID +` wdt:P18 ?image.
-			SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],fr,en". }
-		}`;
-		const fullUrl = endpoint + '?query=' + encodeURIComponent( sparqlQuery );
-		const headers = { 'Accept': 'application/sparql-results+json' };
+	return Axios(fullUrl, headers, ID)
+}
+exports.getSpouse = getSpouse;
 
-		return fetch( fullUrl, { headers } ).then( body => body.json());
-	}
-	exports.getImage = getImage;
+const getImage = (ID) => {
+	const sparqlQuery = `SELECT ?image
+	WHERE
+	{
+		OPTIONAL{wd:`+ ID +` wdt:P18 ?image2}
+		BIND(COALESCE(?image2, "NO") AS ?image)
+	}`;
+	const fullUrl = endpoint + '?query=' + encodeURIComponent( sparqlQuery );
+	const headers = { 'Accept': 'application/sparql-results+json' };
+
+	return Axios(fullUrl, headers, ID)
+}
+exports.getImage = getImage;
+
+
+const Axios = (fullUrl, headers, ID) => {
+	return new Promise((resolve, reject) =>{
+		queue.request((retry) => axios.get( fullUrl, { headers } )
+			.then(response => resolve(response))
+			.catch(error => {
+				if (error.response.status === 429) {
+					console.log('ERROR 429') 
+					return retry() 
+				}
+				throw error; 
+			}), ID, 'common');
+
+	})
+
+}

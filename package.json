@@ -24,10 +24,11 @@
   },
   "homepage": "https://github.com/Gordorok/JavaKing#readme",
   "dependencies": {
+    "axios": "^0.19.2",
     "express": "^4.17.1",
     "image-downloader": "^3.5.0",
     "index.js": "0.0.3",
-    "node-fetch": "^2.6.0",
-    "nodemon": "^2.0.2"
+    "nodemon": "^2.0.2",
+    "smart-request-balancer": "^2.1.1"
   }
 }

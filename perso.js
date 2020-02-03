@@ -21,7 +21,8 @@ module.exports = class Perso {
 			if(typeof this.child === 'undefined') {
 				query.getChild(this.ID)
 				.then( (data) => {
-					var array = data.results.bindings
+					//console.log(data.data)
+					var array = data.data.results.bindings
 					var ID = [];
 					array.forEach(function(item){
 						ID.push(item.child.value.split('entity/')[1]);
@@ -30,11 +31,6 @@ module.exports = class Perso {
 					console.log(this.child)
 					resolve (this.child);
 				})
-				.catch(error =>{
-					var n = Math.random()*5000;
-					var _this = this;
-					setTimeout(function() {_this.Child()}, n)
-				});
 			}
 			else {
 				console.log(this.child)
@@ -47,7 +43,7 @@ module.exports = class Perso {
 		return new Promise((resolve, reject) =>{
 			if(typeof this.spouse === 'undefined') {
 				query.getSpouse(this.ID).then( (data) => {
-					var array = data.results.bindings
+					var array = data.data.results.bindings
 					var ID =[]
 					array.forEach(function(item){
 						ID.push(item.spouse.value.split('entity/')[1]);
@@ -56,11 +52,6 @@ module.exports = class Perso {
 					console.log(this.spouse)
 					resolve(this.spouse)
 				})
-				.catch(error =>{
-					var n = Math.random()*5000;
-					var _this = this;
-					setTimeout(function() {_this.Spouse()}, n)
-				});
 			}
 			else {
 				console.log(this.spouse)
@@ -73,17 +64,10 @@ module.exports = class Perso {
 		return new Promise((resolve, reject) => {
 			if(typeof this.name === 'undefined') {
 				query.getName(this.ID).then((data) => {
-					console.log(data.results.bindings[0])
-					this.name = data.results.bindings[0].label.value
+					this.name = data.data.results.bindings[0].label.value
 					console.log(this.name)
 					resolve (this.name)
 				})
-				.catch(error =>{
-					var n = Math.random()*5000;
-					console.log(n)
-					var _this = this;
-					setTimeout(function() {_this.Name()}, n)
-				});	
 			}
 			else {
 				console.log(this.name)
@@ -96,18 +80,11 @@ module.exports = class Perso {
 		return new Promise((resolve, reject) => {
 			if(typeof this.father === 'undefined') {
 				query.getFather(this.ID).then( (data) => {
-					var ID = data.results.bindings[0].father.value.split('entity/')[1];
+					var ID = data.data.results.bindings[0].father.value.split('entity/')[1];
 					this.father = globIndex.PushId(ID)
 					console.log(this.father)
 					resolve(this.father);
 				})
-				.catch(error =>{
-					var n = Math.random()*5000;
-					var _this = this;
-					setTimeout(function() {_this.Father()}, n)
-				});
-
-
 			}
 			else {
 				console.log(this.father)
@@ -120,16 +97,11 @@ module.exports = class Perso {
 		return new Promise((resolve, reject) => {
 			if(typeof this.mother === 'undefined') {
 				query.getMother(this.ID).then( (data) => {
-					var ID = data.results.bindings[0].mother.value.split('entity/')[1];
+					var ID = data.data.results.bindings[0].mother.value.split('entity/')[1];
 					this.mother = globIndex.PushId(ID)
 					console.log(this.mother)
 					resolve(this.mother);
 				})
-				.catch(error =>{
-					var n = Math.random()*5000;
-					var _this = this;
-					setTimeout(function() {_this.Mother()}, n)
-				});
 			}
 			else {
 				console.log(this.mother)
@@ -142,15 +114,10 @@ module.exports = class Perso {
 		return new Promise((resolve, reject) =>{
 			if(typeof this.birth === 'undefined') {
 				query.getBirth(this.ID).then( (data) => {
-					this.birth=data.results.bindings[0].birth.value
+					this.birth=data.data.results.bindings[0].birth.value
 					console.log(this.birth)
 					resolve(this.Convert_DateTime(this.birth))
 				})
-				.catch(error =>{
-					var n = Math.random()*5000;
-					var _this = this;
-					setTimeout(function() {_this.Birth()}, n)
-				});
 			}
 			else {
 				console.log(this.birth.match(/([^T]+)/)[0].split("-").reverse().join("/"))
@@ -163,15 +130,10 @@ module.exports = class Perso {
 		return new Promise((resolve, reject) =>{
 			if(typeof this.death === 'undefined') {
 				query.getDeath(this.ID).then( (data) => {
-					this.death=data.results.bindings[0].death.value
+					this.death=data.data.results.bindings[0].death.value
 					console.log(this.death)
 					resolve(this.Convert_DateTime(this.death))
 				})
-				.catch(error =>{
-					var n = Math.random()*5000;
-					var _this = this;
-					setTimeout(function() {_this.Death()}, n)
-				});
 			}
 			else {
 				console.log(this.death)
@@ -186,7 +148,7 @@ module.exports = class Perso {
 			var birth = new Promise((resolve, reject) =>{
 				if(typeof this.age === 'undefined') {
 					query.getBirth(this.ID).then( (data) => {
-						this.birth=data.results.bindings[0].birth.value
+						this.birth=data.data.results.bindings[0].birth.value
 						resolve(this.birth)
 					});
 				}
@@ -198,7 +160,7 @@ module.exports = class Perso {
 			var death = new Promise((resolve, reject) =>{
 				if(typeof this.death === 'undefined') {
 					query.getDeath(this.ID).then( (data) => {
-						this.death=data.results.bindings[0].death.value
+						this.death=data.data.results.bindings[0].death.value
 						resolve(this.death)
 					});
 				}
@@ -224,24 +186,25 @@ module.exports = class Perso {
 		return new Promise ((resolve, reject) => {
 			if(typeof this.image === 'undefined') {
 				query.getImage(this.ID).then((data) => {
-					const URL = data.results.bindings[0].image.value
-					const options = {
-						url: URL,
-						dest: './images/'+this.ID+'.jpg'       
+					const URL = data.data.results.bindings[0].image.value
+					if (URL == "NO") {
+						this.image = "no_image"
+						console.log('OK')
 					}
-					download.image(options)
-					.then(({ filename, image }) => {
-						console.log('Saved to', filename)
-						this.image= this.ID;
-						resolve(this.image)
-					})
-					.catch((err) => console.error(err))
+					else {
+						const options = {
+							url: URL,
+							dest: './images/'+this.ID+'.jpg'       
+						}
+						download.image(options)
+						.then(({ filename, image }) => {
+							console.log('Saved to', filename)
+							this.image= this.ID;
+							resolve(this.image)
+						})
+						.catch((err) => console.error(err))
+					}
 				})
-				.catch(error =>{
-					var n = Math.random()*5000;
-					var _this = this;
-					setTimeout(function() {_this.Image()}, n)
-				});
 			}
 			else {
 				resolve (this.image)
@@ -252,5 +215,4 @@ module.exports = class Perso {
 	Convert_DateTime(text) {
 		return (text.match(/([^T]+)/)[0].split("-").reverse().join("/"));
 	}
-
 }
