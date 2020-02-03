@@ -28,7 +28,6 @@
     "image-downloader": "^3.5.0",
     "index.js": "0.0.3",
     "node-fetch": "^2.6.0",
-    "nodemon": "^2.0.2",
-    "smart-request-balancer": "^2.1.1"
+    "nodemon": "^2.0.2"
   }
 }
