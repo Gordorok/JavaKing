@@ -3,19 +3,56 @@ const Index = require('./index.js');
 
 global.globIndex = new Index()
 
-//globIndex.PushId('Q7742').Image()//.then(console.log)
-//globIndex.PushId('Q784173').Child().then((obj) =>{obj.forEach((mom) => {mom.Mother()}); });
-
-//Level1('Q7742')
-
-globIndex.PushId('Q737533').Child().then(children => {
-		children.forEach((child)=>{
-			Level1(child.ID)
+globIndex.PushId('Q7742').Child()
+.then(children => {
+	children.forEach((child) =>{
+		child.Child()
+		.then(children => {
+			children.forEach((child) =>{
+				child.Name()
+			})
 		})
 	})
+})
 
 
-async function Level1(Id) {
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//Level1('Q737533')
+
+
+
+
+
+
+function Level1 (Id) {
+	checkParent(Id)
+
+	globIndex.PushId(Id).Child().then(children => {
+		children.forEach((child)=>{
+			checkParent(child.ID)
+		})
+	})
+}
+
+
+//fonction qui trouve, les parents d'un perso, check si ils sont mariés et appelle fonction pour l'affichage
+async function checkParent(Id) {
 	var base = globIndex.PushId(Id)
 
 	var mother = base.Mother();
@@ -38,5 +75,6 @@ async function Level1(Id) {
 				// appelle la fonction affich , couple non marié	
 			})
 		})
-
+	return;
 }
+

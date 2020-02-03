@@ -19,7 +19,8 @@ module.exports = class Perso {
 	Child() {
 		return new Promise((resolve, reject) => {
 			if(typeof this.child === 'undefined') {
-				query.getChild(this.ID).then( (data) => {
+				query.getChild(this.ID)
+				.then( (data) => {
 					var array = data.results.bindings
 					var ID = [];
 					array.forEach(function(item){
@@ -28,6 +29,11 @@ module.exports = class Perso {
 					this.child=globIndex.PushArray(ID)
 					console.log(this.child)
 					resolve (this.child);
+				})
+				.catch(error =>{
+					var n = Math.random()*5000;
+					var _this = this;
+					setTimeout(function() {_this.Child()}, n)
 				});
 			}
 			else {
@@ -49,6 +55,11 @@ module.exports = class Perso {
 					this.spouse=globIndex.PushArray(ID)
 					console.log(this.spouse)
 					resolve(this.spouse)
+				})
+				.catch(error =>{
+					var n = Math.random()*5000;
+					var _this = this;
+					setTimeout(function() {_this.Spouse()}, n)
 				});
 			}
 			else {
@@ -62,9 +73,16 @@ module.exports = class Perso {
 		return new Promise((resolve, reject) => {
 			if(typeof this.name === 'undefined') {
 				query.getName(this.ID).then((data) => {
+					console.log(data.results.bindings[0])
 					this.name = data.results.bindings[0].label.value
 					console.log(this.name)
 					resolve (this.name)
+				})
+				.catch(error =>{
+					var n = Math.random()*5000;
+					console.log(n)
+					var _this = this;
+					setTimeout(function() {_this.Name()}, n)
 				});	
 			}
 			else {
@@ -82,6 +100,11 @@ module.exports = class Perso {
 					this.father = globIndex.PushId(ID)
 					console.log(this.father)
 					resolve(this.father);
+				})
+				.catch(error =>{
+					var n = Math.random()*5000;
+					var _this = this;
+					setTimeout(function() {_this.Father()}, n)
 				});
 
 
@@ -101,9 +124,12 @@ module.exports = class Perso {
 					this.mother = globIndex.PushId(ID)
 					console.log(this.mother)
 					resolve(this.mother);
+				})
+				.catch(error =>{
+					var n = Math.random()*5000;
+					var _this = this;
+					setTimeout(function() {_this.Mother()}, n)
 				});
-
-
 			}
 			else {
 				console.log(this.mother)
@@ -119,6 +145,11 @@ module.exports = class Perso {
 					this.birth=data.results.bindings[0].birth.value
 					console.log(this.birth)
 					resolve(this.Convert_DateTime(this.birth))
+				})
+				.catch(error =>{
+					var n = Math.random()*5000;
+					var _this = this;
+					setTimeout(function() {_this.Birth()}, n)
 				});
 			}
 			else {
@@ -135,6 +166,11 @@ module.exports = class Perso {
 					this.death=data.results.bindings[0].death.value
 					console.log(this.death)
 					resolve(this.Convert_DateTime(this.death))
+				})
+				.catch(error =>{
+					var n = Math.random()*5000;
+					var _this = this;
+					setTimeout(function() {_this.Death()}, n)
 				});
 			}
 			else {
@@ -200,6 +236,11 @@ module.exports = class Perso {
 						resolve(this.image)
 					})
 					.catch((err) => console.error(err))
+				})
+				.catch(error =>{
+					var n = Math.random()*5000;
+					var _this = this;
+					setTimeout(function() {_this.Image()}, n)
 				});
 			}
 			else {

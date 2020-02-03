@@ -33,6 +33,7 @@ module.exports = class Index {
 			return(this.obj)
 		}
 		else {
+			console.log('doublon')
 			return (this.list[exist])
 		}
 
