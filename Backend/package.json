@@ -1,0 +1,32 @@
+{
+  "name": "javaking",
+  "version": "1.0.0",
+  "description": "Explore les rois",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon --ignore  sessions/ app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Gordorok/JavaKing.git"
+  },
+  "keywords": [
+    "JS",
+    "SPARQL",
+    "wikidata",
+    "rois"
+  ],
+  "author": "Gordorok",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Gordorok/JavaKing/issues"
+  },
+  "homepage": "https://github.com/Gordorok/JavaKing#readme",
+  "dependencies": {
+    "axios": "^0.19.2",
+    "image-downloader": "^3.6.0",
+    "nodemon": "^2.0.4",
+    "smart-request-balancer": "^2.1.1"
+  }
+}
